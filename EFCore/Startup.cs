@@ -1,4 +1,6 @@
-﻿using EFCore.EF;
+﻿using EFCore.Catalog.AccountCatalog;
+using EFCore.Catalog.TodoCatalog;
+using EFCore.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +37,12 @@ namespace EFCore
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString"));
             });
+
+            services.AddScoped<IAccountManagement, AccountManagement>();
+            services.AddScoped<ITodoManagement, TodoManagement>();
+
+            services.AddHttpContextAccessor();
+
         }
     }
 }

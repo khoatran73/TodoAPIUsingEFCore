@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EFCore.Models
+﻿namespace EFCore.Catalog.AccountCatalog.Dtos
 {
-    public class Account
+    public class AccountCreateRequest
     {
-        [Key]
         public string AccountId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
