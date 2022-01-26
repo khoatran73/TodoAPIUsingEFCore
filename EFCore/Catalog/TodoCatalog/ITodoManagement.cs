@@ -5,6 +5,9 @@ namespace EFCore.Catalog.TodoCatalog
 {
     public interface ITodoManagement
     {
-        Task<List<Todo>> GetTodoByAccountId(GetTodoByAccountIdRequest request);
-    }
+        Task<List<Todo>> GetTodoByAccountId(string AccountId);
+        Task<int> CreateTodo(TodoCreateRequest request);
+        Task<int> UpdateTodo(string TodoId, TodoCreateRequest request);
+        Task<int> DeleteTodo(string TodoId);
+    } 
 }

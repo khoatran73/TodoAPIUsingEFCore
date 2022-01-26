@@ -11,14 +11,14 @@ namespace EFCore.Catalog.AccountCatalog
         {
             _context = context;
         }
-        public async Task<int> Create(AccountCreateRequest ACRequest)
+        public async Task<int> Create(AccountCreateRequest request)
         {
             var account = new Account()
             {
-                AccountId = ACRequest.AccountId,
-                Email = ACRequest.Email,
-                Name = ACRequest.Name,
-                Url = ACRequest.Url
+                AccountId = request.AccountId,
+                Email = request.Email,
+                Name = request.Name,
+                Url = request.Url
             };
 
             _context.Accounts.Add(account);

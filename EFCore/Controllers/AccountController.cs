@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace EFCore.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -17,11 +16,10 @@ namespace EFCore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AccountCreateRequest ACRequest) 
+        [Route("api/account")]
+        public async Task<IActionResult> Create([FromBody] AccountCreateRequest request) 
         {
-            var result = await _iAccountManagement.Create(ACRequest);
-
-            Debug.WriteLine(result);
+            var result = await _iAccountManagement.Create(request);
 
             if (result == 0)
                 return BadRequest("Cant not create account");  

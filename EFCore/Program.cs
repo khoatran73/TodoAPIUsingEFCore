@@ -1,3 +1,8 @@
+using EFCore.Catalog.AccountCatalog;
+using EFCore.Catalog.TodoCatalog;
+using EFCore.EF;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "allow cors";
 
@@ -7,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddCors(options =>
 {
@@ -19,6 +26,14 @@ builder.Services.AddCors(options =>
              .AllowCredentials();
         });
 });
+
+builder.Services.AddDbContext<TodoDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"));
+});
+
+builder.Services.AddTransient<IAccountManagement, AccountManagement>();
+builder.Services.AddTransient<ITodoManagement, TodoManagement>();
 
 var app = builder.Build();
 
