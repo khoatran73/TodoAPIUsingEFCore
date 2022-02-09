@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20220125142335_AddTodo")]
-    partial class AddTodo
+    [Migration("20220209125439_TodoMigration")]
+    partial class TodoMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -74,13 +74,11 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Models.Todo", b =>
                 {
-                    b.HasOne("EFCore.Models.Account", "Account")
+                    b.HasOne("EFCore.Models.Account", null)
                         .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }

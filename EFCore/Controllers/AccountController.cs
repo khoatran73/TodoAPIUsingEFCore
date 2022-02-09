@@ -1,30 +1,27 @@
-﻿using EFCore.Catalog.AccountCatalog;
-using EFCore.Catalog.AccountCatalog.Dtos;
+﻿using EFCore.EF;
+using EFCore.Models;
+using EFCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace EFCore.Controllers
 {
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountManagement _iAccountManagement;
+        private readonly IAccountRepository _accountRepository;
+        //private IUnitOfWork _unitOfWork;
 
-        public AccountController(IAccountManagement iAccountManagement)
+        public AccountController(IAccountRepository accountRepository)
         {
-            _iAccountManagement = iAccountManagement;
+            _accountRepository = accountRepository;
+            //_unitOfWork = unitOfWork;
         }
 
         [HttpPost]
         [Route("api/account")]
-        public async Task<IActionResult> Create([FromBody] AccountCreateRequest request) 
+        public async Task<IActionResult> Create([FromBody] Account account) 
         {
-            var result = await _iAccountManagement.Create(request);
-
-            if (result == 0)
-                return BadRequest("Cant not create account");  
-
-            return Ok(result); 
+            return Ok(await _accountRepository.Create(account)); 
         }
 
     }

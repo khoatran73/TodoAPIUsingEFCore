@@ -6,10 +6,7 @@ namespace EFCore.EF
 {
     public class TodoDbContext : DbContext
     {        
-        public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)
-        {
-            
-        }
+        public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AccountConfiguration());

@@ -12,9 +12,9 @@ namespace EFCore.Configuration
 
             builder.HasKey(todo => todo.TodoId);
 
-            //builder.HasOne<Account>()
-            //    .WithMany()
-            //    .HasForeignKey(account => account.AccountId);
+            builder.HasOne<Account>()
+                .WithMany()
+                .HasForeignKey("AccountId");
         }
     }
 }

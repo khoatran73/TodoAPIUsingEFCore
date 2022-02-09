@@ -1,6 +1,6 @@
-﻿using EFCore.Catalog.TodoCatalog;
-using EFCore.Catalog.TodoCatalog.Dtos;
+﻿using EFCore.EF;
 using EFCore.Models;
+using EFCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EFCore.Controllers
@@ -8,27 +8,28 @@ namespace EFCore.Controllers
     [ApiController]
     public class TodoController : ControllerBase
     {
-        private readonly ITodoManagement _iTodoManagement;
+        private readonly ITodoRepository _todoRepository;
+        //private IUnitOfWork _unitOfWork;
 
-        public TodoController(ITodoManagement iTodoManagement)
+        public TodoController(ITodoRepository todoRepository)
         {
-            _iTodoManagement = iTodoManagement;
+            _todoRepository = todoRepository;
         }
 
         [HttpGet]
         [Route("api/todo/{AccountId}")]
-        public IActionResult GetTodoByAccountId(string AccountId)
+        public async Task<IActionResult> GetTodoByAccountId(string AccountId)
         {
-            var todoList = _iTodoManagement.GetTodoByAccountId(AccountId);
+            var todoList = _todoRepository.GetTodoByAccountId(AccountId);
 
-            return Ok(todoList.Result);
+            return Ok(todoList);
         }
 
         [HttpPost]
         [Route("api/todo")]
-        public async Task<IActionResult> Create([FromBody] TodoCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] Todo todo)
         {
-            var result = await _iTodoManagement.CreateTodo(request);
+            var result = await _todoRepository.CreateTodo(todo);
 
             if (result == 0)
                 return BadRequest("Cant not create todo");
@@ -38,9 +39,9 @@ namespace EFCore.Controllers
 
         [HttpPut]
         [Route("api/todo/{TodoId}")]
-        public async Task<IActionResult> UpdateTodo(string TodoId, [FromBody] TodoCreateRequest request)
+        public async Task<IActionResult> UpdateTodo(string TodoId, [FromBody] Todo todo)
         {
-            var result = await _iTodoManagement.UpdateTodo(TodoId, request);
+            var result = await _todoRepository.UpdateTodo(TodoId, todo);
 
             if (result == 0)
                 return BadRequest("Cant not update todo");
@@ -52,7 +53,7 @@ namespace EFCore.Controllers
         [Route("api/todo/{TodoId}")]
         public async Task<IActionResult> DeleteTodo(string TodoId)
         {
-            var result = await _iTodoManagement.DeleteTodo(TodoId);
+            var result = await _todoRepository.DeleteTodo(TodoId);
 
             if (result == 0)
                 return BadRequest("Cant not delete todo");

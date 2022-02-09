@@ -4,7 +4,7 @@
 
 namespace EFCore.Migrations
 {
-    public partial class AddTodo : Migration
+    public partial class TodoMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
