@@ -8,20 +8,18 @@ namespace EFCore.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountRepository _accountRepository;
-        //private IUnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
-        public AccountController(IAccountRepository accountRepository)
+        public AccountController(IUnitOfWork unitOfWork)
         {
-            _accountRepository = accountRepository;
-            //_unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
         [Route("api/account")]
         public async Task<IActionResult> Create([FromBody] Account account) 
         {
-            return Ok(await _accountRepository.Create(account)); 
+            return Ok(await _unitOfWork.accountRepository.Create(account)); 
         }
 
     }

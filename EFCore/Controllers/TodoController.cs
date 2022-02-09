@@ -8,19 +8,18 @@ namespace EFCore.Controllers
     [ApiController]
     public class TodoController : ControllerBase
     {
-        private readonly ITodoRepository _todoRepository;
-        //private IUnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
-        public TodoController(ITodoRepository todoRepository)
+        public TodoController(IUnitOfWork unitOfWork)
         {
-            _todoRepository = todoRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         [Route("api/todo/{AccountId}")]
         public async Task<IActionResult> GetTodoByAccountId(string AccountId)
         {
-            var todoList = _todoRepository.GetTodoByAccountId(AccountId);
+            var todoList = _unitOfWork.todoRepository.GetTodoByAccountId(AccountId);
 
             return Ok(todoList);
         }
@@ -29,7 +28,7 @@ namespace EFCore.Controllers
         [Route("api/todo")]
         public async Task<IActionResult> Create([FromBody] Todo todo)
         {
-            var result = await _todoRepository.CreateTodo(todo);
+            var result = await _unitOfWork.todoRepository.CreateTodo(todo);
 
             if (result == 0)
                 return BadRequest("Cant not create todo");
@@ -41,7 +40,7 @@ namespace EFCore.Controllers
         [Route("api/todo/{TodoId}")]
         public async Task<IActionResult> UpdateTodo(string TodoId, [FromBody] Todo todo)
         {
-            var result = await _todoRepository.UpdateTodo(TodoId, todo);
+            var result = await _unitOfWork.todoRepository.UpdateTodo(TodoId, todo);
 
             if (result == 0)
                 return BadRequest("Cant not update todo");
@@ -53,7 +52,7 @@ namespace EFCore.Controllers
         [Route("api/todo/{TodoId}")]
         public async Task<IActionResult> DeleteTodo(string TodoId)
         {
-            var result = await _todoRepository.DeleteTodo(TodoId);
+            var result = await _unitOfWork.todoRepository.DeleteTodo(TodoId);
 
             if (result == 0)
                 return BadRequest("Cant not delete todo");

@@ -15,8 +15,8 @@ namespace EFCore.EF
             _context = context;
             accountRepository = new AccountRepository(_context);
             todoRepository = new TodoRepository(_context);
-
         }
+
         public void Dispose()
         {
             _context.Dispose();
